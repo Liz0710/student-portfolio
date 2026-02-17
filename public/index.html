@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Portfolio</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 450px;
+            box-shadow: 0px 10px 25px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #764ba2;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            background: #764ba2;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #5a3d8a;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Student Portfolio Form</h1>
+
+    <form id="portfolioForm" enctype="multipart/form-data">
+
+        <input type="text" id="fullname" placeholder="Full Name" required>
+        <input type="date" id="dob" required>
+        <input type="text" id="college" placeholder="College Name" required>
+        <input type="number" id="year" placeholder="Year of Passing" required>
+        <input type="email" id="email" placeholder="Email Address" required>
+        <input type="tel" id="phone" placeholder="Contact Number" required>
+        <textarea id="skills" placeholder="Additional Skills"></textarea>
+        <textarea id="hobbies" placeholder="Hobbies"></textarea>
+
+        <label>Upload Resume:</label>
+        <input type="file" id="resume" required>
+
+        <button type="submit">Submit Portfolio</button>
+
+    </form>
+</div>
+
+<script>
+document.getElementById("portfolioForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("fullname", document.getElementById("fullname").value);
+    formData.append("dob", document.getElementById("dob").value);
+    formData.append("college", document.getElementById("college").value);
+    formData.append("year", document.getElementById("year").value);
+    formData.append("email", document.getElementById("email").value);
+    formData.append("phone", document.getElementById("phone").value);
+    formData.append("skills", document.getElementById("skills").value);
+    formData.append("hobbies", document.getElementById("hobbies").value);
+    formData.append("resume", document.getElementById("resume").files[0]);
+
+    const response = await fetch("/submit", {
+        method: "POST",
+        body: formData
+    });
+
+    const result = await response.json();
+    alert(result.message);
+});
+</script>
+
+</body>
+</html>
